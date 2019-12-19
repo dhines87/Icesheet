@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>Ice Sheet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- stylesheets -->
+    <link href="css/angular-snap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/icesheet.css" rel="stylesheet" />
+    <!-- libraries -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body ng-app="icesheet" ng-controller="RoutesController">
+    <div class="header-parent">
+        <div class="header-child">
+            <h1>Ice Sheet</h1>
+        </div>
+    </div>
+    <nav class="navbar navbar-default" role="navigation" ng-controller="MenuController as menu">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed  && 'in'">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active: menu.isActive('/teams') }"><a ng-link="teams">Teams</a></li>
+                <li ng-class="{active: menu.isActive('/stats') }"><a ng-link="stats">Stats</a></li>
+                <li ng-class="{active: menu.isActive('/standings') }"><a ng-link="standings">Standings</a></li>
+                <li ng-class="{active: menu.isActive('/games') }"><a ng-link="games">Games</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="main-container">
+        <!-- partial content -->
+        <div class="content">
+            <ng-viewport></ng-viewport>
+        </div>
+    </div>
+    <!-- 3rd Party Scripts-->
+    <script src="scripts/lib/angular.min.js"></script>
+    <script src="scripts/lib/angular-message.js"></script>
+    <script src="scripts/lib/angular-snap.min.js"></script>    
+    <script src="scripts/lib/router.es5.min.js"></script>
+    <script src="scripts/lib/snap.min.js"></script>
+    <script src="scripts/lib/angularui/ui-bootstrap-tpls.min.js"></script>
+    <!-- Application scripts-->
+    <!--<script src="scripts/common/app.js"></script>
+    <script src="scripts/common/menu.controller.js"></script>
+    <script src="scripts/common/rest.service.js"></script>
+    <script src="scripts/common/routes.controller.js"></script>
+    <script src="components/teams/team.js"></script>
+    <script src="components/teams/teams.controller.js"></script>
+    <script src="components/teams/team.modal.controller.js"></script>
+    <script src="components/teams/player.js"></script>
+    <script src="components/teams/player.modal.controller.js"></script>
+    <script src="components/games/game.js"></script>
+    <script src="components/standings/standings.controller.js"></script>
+    <script src="components/games/games.controller.js"></script>
+    <script src="components/stats/stats.controller.js"></script>
+    <script src="components/game/game.controller.js"></script>
+    <script src="components/game/gameEventmodal.controller.js"></script>-->
+    <script src="scripts/icesheet.min.js"></script>
+</body>
+</html>

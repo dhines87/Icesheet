@@ -1,0 +1,84 @@
+<form name="playerForm">
+    <div class="modal-header text-center">
+        <button type="button" class="close" ng-click="ctrlr.cancel()">&times;</button>
+        <h4 class="modal-title">{{ctrlr.modalTitle}}</h4>
+    </div>
+    <div class="modal-body xsmall" style="height: 500px">
+
+        <!-- First Name -->
+        <div class="col-sm-12 mb-10">
+            <div class="col-sm-3">
+                <label for="firstname">First Name</label>
+            </div>
+            <div class="col-sm-9">
+                <input required ng-minlength="2" type="text" ng-model="ctrlr.player.firstname" name="firstname" placeholder="First"/>
+                <div class="col-sm-8" ng-messages="playerForm.firstname.$error" ng-show="playerForm.firstname.$touched">
+                    <div ng-message="required" class="custom-error">* Required.</div>
+                    <div ng-message="minlength" class="custom-error">* Needs to be at least 2 characters long.</div>
+                </div>
+            </div>            
+        </div>
+
+        <!-- Last Name -->
+        <div class="col-sm-12 mb-10">
+            <div class="col-sm-3">
+                <label for="lastname">Last Name</label>
+            </div>
+            <div class="col-sm-9">
+                <input required ng-minlength="2" type="text" ng-model="ctrlr.player.lastname" name="lastname" placeholder="Last"/>
+                <div class="col-sm-8" ng-messages="playerForm.lastname.$error" ng-show="playerForm.lastname.$touched">
+                    <div ng-message="required" class="custom-error">* Required.</div>
+                    <div ng-message="minlength" class="custom-error">* Needs to be at least 2 characters long.</div>
+                </div>
+            </div>
+        </div>
+                
+        <!-- Shoots -->
+        <div class="col-sm-12 mb-10">
+            <div class="col-sm-3">
+                <label for="shoots">Shoots/Catches</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="radio" name="shoots" value="R" ng-model="ctrlr.player.shoots"> Right<br>
+                <input type="radio" name="shoots" value="L" ng-model="ctrlr.player.shoots"> Left<br>
+            </div>
+        </div>
+
+        <!-- Position -->
+        <div class="col-sm-12 mb-10">
+            <div class="col-sm-3">
+                <label for="position">Position</label>
+            </div>
+            <div class="col-sm-9">
+                <select name="position" ng-model="ctrlr.player.position">
+                    <option ng-repeat="position in ctrlr.positions">{{position}}</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Number -->
+        <div class="col-sm-12 mb-10">
+            <div class="col-sm-3">
+                <label for="num">Number</label>
+            </div>
+            <div class="col-sm-9">
+                <input type="number" required ng-pattern="ctrlr.numberRegex" ng-model="ctrlr.player.number" name="num">
+                <div class="col-sm-8" ng-messages="playerForm.num.$error" ng-show="playerForm.num.$touched">
+                    <div ng-message="required" class="custom-error">* Required.</div>
+                    <div ng-message="pattern" class="custom-error">* Number must be between 1-99.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer top10pad">
+        <div class="col-xs-12 text-right">
+            <button type="button" class="btn panel-orange"
+                    ng-click="(ctrlr.todo === 'create') ? ctrlr.create() : ctrlr.edit()"
+                    ng-disabled="playerForm.$invalid">
+                {{ctrlr.todo}}
+            </button>
+            <button type="button" class="btn btn-default" ng-click="ctrlr.cancel()">cancel</button>
+        </div>
+    </div>
+</form>

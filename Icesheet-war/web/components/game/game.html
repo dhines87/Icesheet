@@ -1,0 +1,108 @@
+<form name="gameForm">
+
+    <div class="row">
+        <button id="button-start-game" class="button-icesheet" ng-click="game.startGame()" ng-show="!game.game.gameid"><i style="padding-right: 10px;" class="fa fa-save fa-lg" aria-hidden="true"></i>Start Game</button>
+        <button id="button-save-game" class="button-icesheet" ng-click="game.updateGame()" ng-show="game.game.gameid"><i style="padding-right: 10px;" class="fa fa-save fa-lg" aria-hidden="true"></i>Save Game</button>
+        <button id="button-view-game-sheet" class="button-icesheet" ng-click="game.openGameSheet()" ng-show="game.game.gameid"><i style="padding-right: 10px;" class="fa fa-file fa-lg" aria-hidden="true"></i>View Game Sheet</button>
+        <div class="text-center" style="padding-right: 50px;">{{game.status}}
+        </div>
+    </div>
+
+    <div class="row mb-10" style="margin-top: 25px;">
+
+        <label for="gameDate">Game Date</label>
+        <input required value="{{game.game.gameDate}}" name="gameDate" placeholder="yyyy-mm-dd">
+        <div ng-messages="newGameForm.gameDate.$error" ng-show="newGameForm.gameDate.$touched">
+            <div ng-message="required" class="custom-error">* Required.</div>
+            <div ng-message="date" class="custom-error">* Not a valid date.</div>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin-top: 25px;">
+
+        <div class="col-xs-4 center-block" style="text-align: center;">
+
+            <label for="homeTeam" style="display: block;">Home Team</label>
+            <select ng-model="game.game.homeTeam"
+                    ng-options="t as t.name for t in game.teams"
+                    ng-disabled="game.game.gameid"
+                    style="margin-top: 25px;"></select>
+            <p>({{game.game.homeTeam.wins}}-{{game.game.homeTeam.losses}}-{{game.game.homeTeam.ties}})</p>
+               
+
+        </div>
+
+        <div class="col-xs-2 center-block" ng-show="game.game.gameid" style="text-align: center;">
+            <h3>{{game.game.homeTeamScore}}</h3>        
+            <label style="margin-top:25px;">Shots</label>
+            <input style="width: 40px;" type="number" ng-model="game.game.homeTeamShots" />                
+        </div>
+
+        <div class="col-xs-2 center-block" ng-show="game.game.gameid" style="text-align: center;">
+            <h3>{{game.game.visitorTeamScore}}</h3>
+            <label style="margin-top:25px;">Shots</label>
+            <input style="width: 40px;" type="number" ng-model="game.game.visitorTeamShots" />
+        </div>
+
+        <div class="col-xs-4 center-block" style="text-align: center;">
+
+            <label for="visitorTeam" style="display: block;">Visitor Team</label>
+            <select id="visitorSelect" 
+                    ng-model="game.game.visitorTeam"
+                    ng-options="t as t.name for t in game.teams"                  
+                    ng-disabled="game.game.gameid"
+                    style="margin-top: 25px;"></select>
+            <p>({{game.game.visitorTeam.wins}}-{{game.game.visitorTeam.losses}}-{{game.game.visitorTeam.ties}})</p>
+
+        </div>
+
+    </div>
+
+    <div class="row" ng-show="game.game.gameid" style="padding-top: 25px;">
+
+        <div class="col-md-6">
+            <div class="col-md-8 col-md-offset-1 icesheet-header">
+                <div class="col-xs-2"
+                     ng-click="predicate = 'num'; reverse=!reverse; game.sortPlayers(predicate, reverse);">#</div>
+                <div class="col-xs-10"
+                     ng-click="predicate = 'firstName'; reverse=!reverse; game.sortPlayers(predicate, reverse);">Player</div>
+            </div>
+            
+            <div class="col-md-8 col-md-offset-1 clickable" ng-class-even="'striped'" ng-repeat="player in game.game.homeTeam.players" ng-click="game.openGameEventModal(player)">
+                <div class="col-xs-2">{{player.number}}</div>
+                <div class="col-xs-10">{{player.firstname}} {{player.lastname}}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="col-md-8 col-md-offset-1 icesheet-header">
+                <div class="col-xs-2"
+                     ng-click="predicate = 'num'; reverse=!reverse; game.sortPlayers(predicate, reverse);">#</div>
+                <div class="col-xs-10"
+                     ng-click="predicate = 'firstName'; reverse=!reverse; game.sortPlayers(predicate, reverse);">Player</div>
+            </div>
+            <div class="col-md-8 col-md-offset-1 clickable" ng-class-even="'striped'" ng-repeat="player in game.game.visitorTeam.players" ng-click="game.openGameEventModal(player)">
+                <div class="col-xs-2">{{player.number}}</div>
+                <div class="col-xs-10">{{player.firstname}} {{player.lastname}}</div>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <div class="col-md-6 col-md-offset-3 icesheet-header" ng-show="game.game.gameid && game.game.goals.length > 0" style="margin-top: 50px; text-align: center;">Scoring Summary</div>
+    <div class="row">        
+        <div class="col-md-6 col-md-offset-3 clickable" ng-class-even="'striped'" ng-repeat="goal in game.game.goals" ng-click="game.openGameEventModal(goal.player, goal)">
+            {{game.buildGoalLine(goal)}}
+        </div>
+    </div>
+
+    <div class="col-md-6 col-md-offset-3 icesheet-header" ng-show="game.game.gameid && game.game.penalties.length > 0" style="margin-top: 50px; text-align: center;">Penalty Summary</div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 clickable" ng-class-even="'striped'" ng-repeat="penalty in game.game.penalties" ng-click="game.openGameEventModal(penalty.player, null, penalty)">
+            {{game.buildPenaltyLine(penalty)}}
+        </div>             
+    </div>
+
+</form>

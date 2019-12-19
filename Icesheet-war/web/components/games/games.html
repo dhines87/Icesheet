@@ -1,0 +1,83 @@
+<div class="row mb-10">
+    <button id="button-create-game" class="button-icesheet" ng-click="games.newGame()"><i style="padding-right: 10px;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>Create Game</button>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-sm-12 col-xs-12 icesheet-header">
+        <div class="col-xs-3">Date</div>
+        <div class="col-xs-3">Home Team</div>
+        <div class="col-xs-2">Visitor Team</div>
+    </div>
+
+    <div class="col-lg-12 col-sm-12 col-xs-12" style="border-radius: 10px;" ng-repeat="game in games.games" ng-class-even="'striped'" ng-click="games.openGame(game)">
+        <div class="col-xs-3">{{game.gameDate | date : 'mediumDate'}}</div>
+        <div class="col-xs-2" ng-style="{ 'font-weight' : game.homeTeamScore > game.visitorTeamScore ? 'bold' : 'normal' }">{{game.homeTeamScore > game.visitorTeamScore ? "W" : game.homeTeamScore < game.visitorTeamScore ? "L" : "T"}} - {{game.homeTeam.name}}</div>
+        <div class="col-xs-1">
+            <p style="display: inline;" ng-style="{ 'font-weight' : game.homeTeamScore > game.visitorTeamScore ? 'bold' : 'normal' }">{{game.homeTeamScore}}</p> - <p style="display: inline;" ng-style="{ 'font-weight' : game.visitorTeamScore > game.homeTeamScore ? 'bold' : 'normal' }">{{game.visitorTeamScore}}</p>
+        </div>
+        <div class="col-xs-2" ng-style="{ 'font-weight' : game.visitorTeamScore > game.homeTeamScore ? 'bold' : 'normal' }">{{game.visitorTeamScore > game.homeTeamScore ? "W" : game.visitorTeamScore < game.homeTeamScore ? "L" : "T"}} - {{game.visitorTeam.name}}</div>
+    </div>
+
+</div>
+
+
+
+
+<!--<div ng-switch="games.view">
+
+    
+
+    <div ng-switch-when="new-game">
+
+        <form name="newGameForm">
+
+            <div class="row mb-10">
+                <button id="button-back-game" class="button-icesheet" ng-click="games.switchView('games')"><i style="padding-right: 10px;" class="fa fa-arrow-circle-left fa-lg" aria-hidden="true"></i>Back</button>
+                <button id="button-next-step" ng-disabled="newGameForm.gameDate.$untouched" class="button-icesheet" ng-click="games.startGame()"><i style="padding-right: 10px;" class="fa fa-play-circle fa-lg" aria-hidden="true"></i>Start Game</button>
+            </div>
+
+            <div class="row mb-10">
+
+                <label for="gameDate">Game Date</label>
+                <input type="date" required ng-model="games.game.gameDate" name="gameDate" placeholder="yyyy-mm-dd">
+                <div ng-messages="newGameForm.gameDate.$error" ng-show="newGameForm.gameDate.$touched">
+                    <div ng-message="required" class="custom-error">* Required.</div>
+                    <div ng-message="date" class="custom-error">* Not a valid date.</div>
+                </div>
+
+            </div>
+
+            <div class="row mb-10">
+                <label for="homeTeam">Home Team</label>
+                <select ng-model="games.homeTeam"
+                        ng-options="t as t.name for t in games.teams"
+                        style="margin-top: 25px;"></select>
+            </div>
+
+            <div class="row mb-10" ng-show="games.homeTeam">
+                <label for="visitorTeam">Visitor Team</label>
+                <select id="visitorSelect" ng-model="games.visitorTeam"
+                    ng-options="t as t.name for t in filterVisitorSelect(games.homeTeam)"
+                    style="margin-top: 25px;"></select>
+            </div>
+
+    </form>
+
+</div>
+
+    <div ng-switch-when="edit-game">
+
+        <form name="editGameForm">
+
+            <div class="row mb-10">
+                <button id="button-back-game" class="button-icesheet" ng-click="games.switchView('games')"><i style="padding-right: 10px;" class="fa fa-arrow-circle-left fa-lg" aria-hidden="true"></i>Back</button>
+                <button id="button-save-game" class="button-icesheet" ng-click="games.saveGame()"><i style="padding-right: 10px;" class="fa fa-check-circle fa-lg" aria-hidden="true"></i>Save Game</button>
+                <button id="button-delete-game" class="button-icesheet" ng-click="games.deleteGame()"><i style="padding-right: 10px;" class="fa fa-minus-circle fa-lg" aria-hidden="true"></i>Delete Game</button>
+            </div>
+        </form>
+        
+
+    </div>
+
+</div>-->

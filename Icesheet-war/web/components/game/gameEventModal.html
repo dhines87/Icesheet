@@ -1,0 +1,105 @@
+<form name="gameEventForm">
+    <div class="modal-header text-center">
+        <button type="button" class="close" ng-click="ctrlr.cancel()">&times;</button>
+        <h4 class="modal-title">{{ctrlr.modalTitle}}</h4>
+    </div><!-- modal-header -->
+    <div class="modal-body xsmall">
+
+    <div class="panel">
+        <div class="panel-body xsmall">
+            <div class="row text-center" ng-show="ctrlr.todo === 'create' && (ctrlr.eventType === '')">
+                <button style="margin-right: 25px;" id="button-create-goal" class="button-icesheet" ng-click="ctrlr.createGoalClicked()"><i style="padding-right: 10px;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>Goal</button>
+                <button style="margin-left: 25px;" id="button-create-penalty" class="button-icesheet" ng-click="ctrlr.createPenaltyClicked()"><i style="padding-right: 10px;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>Penalty</button>
+            </div>
+
+            <div class="row" style="margin-bottom: 10px;" ng-show="ctrlr.todo === 'edit'">
+
+                <div class="col-xs-12">
+                    <label for="period">Player</label>
+                    <select name="player" ng-model="ctrlr.player" ng-options="p as p.firstname + ' ' + p.lastname for p in ctrlr.players" ng-change="ctrlr.playerChanged()"></select>
+                </div>
+
+            </div>
+
+            <div class="row" ng-show="ctrlr.eventType === 'goal' || ctrlr.eventType === 'penalty'">
+
+                <div class="col-xs-6">
+                    <label for="time">Time:</label>
+                    <input required style="width: 50px;" name="time" ng-model="ctrlr.time" ng-pattern="ctrlr.timeRegex" />
+                    <div class="col-xs-12 text-center" ng-messages="gameEventForm.time.$error" ng-show="gameEventForm.time.$touched">
+                        <div ng-message="required" class="custom-error">* Required.</div>
+                        <div ng-message="pattern" class="custom-error">* Time must be between 0:01 and 19:59.</div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <label for="period">Period</label>
+                    <select name="period" ng-model="ctrlr.period" ng-options="p as p for p in ctrlr.periods"></select>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top: 25px;">
+
+                <div class="col-xs-6" ng-show="ctrlr.showPrimaryAssist">
+
+                    <label>Primary Assist</label>
+                    <select ng-model="ctrlr.assists[0].player" ng-options="p as p.firstname + ' ' + p.lastname for p in ctrlr.players | filter: {teamid : ctrlr.player.teamid} | filter: {playerid : '!' + ctrlr.goal.player.playerid}" ng-disabled="ctrlr.assists.length === 2" style=" width: 200px;"></select>
+                    <button style="margin-top: 10px;" type="button" class="btn btn-default" ng-click="ctrlr.deleteAssist('primary')" ng-disabled="ctrlr.assists.length === 2">
+                        delete
+                    </button>
+
+                </div>
+
+                <div class="col-xs-6" ng-show="ctrlr.showSecondaryAssist">
+
+                    <label>Secondary Assist</label>
+                    <select ng-model="ctrlr.assists[1].player" ng-options="p as p.firstname + ' ' + p.lastname for p in ctrlr.players | filter: {playerid: '!' + ctrlr.assists[0].player.playerid} | filter: {playerid : '!' + ctrlr.goal.player.playerid} | filter: {teamid: ctrlr.goal.player.teamid}" ng-change="assistChange('secondary')" style=" width: 200px;"></select>
+                    <button style="margin-top: 10px;" type="button" class="btn btn-default" ng-click="ctrlr.deleteAssist('secondary')">
+                        delete
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="row" style="margin-top:10px;">
+                <div class="col-xs-4 text-left" ng-show="ctrlr.eventType === 'goal'">
+                    <button style="margin-left: 25px;" id="button-create-assist" class="button-icesheet" ng-click="ctrlr.createAssistClicked()"><i style="padding-right: 10px;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>Assist</button>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;" ng-show="ctrlr.eventType === 'penalty'">
+                <div class=" col-xs-6">
+                    <label>Type</label>
+                    <select ng-model="ctrlr.penalty.penalty" ng-options="p as p for p in ctrlr.penalties"
+                            style="width: 175px;"></select>
+                </div>
+                <div class="col-xs-6">
+                    <label>Minutes</label>
+                    <select ng-model="ctrlr.penalty.minutes" ng-options="m as m for m in ctrlr.minutes"
+                            style="width: 175px;"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    </div><!-- modal-body -->
+    <div class="modal-footer top10pad" ng-show="(ctrlr.todo === 'create' || ctrlr.todo === 'edit') && (ctrlr.eventType === 'goal' || ctrlr.eventType === 'penalty')">    
+        <div class="col-xs-8 text-right">
+            <button type="button" class="btn panel-black"
+                    ng-click="(ctrlr.todo === 'create') ? ctrlr.create() : ctrlr.edit()"
+                    ng-disabled="gameEventForm.$invalid">
+                {{ctrlr.todo}}
+            </button>
+            <button type="button" class="btn btn-default" ng-show="ctrlr.todo === 'edit'" ng-click="ctrlr.delete()">
+                delete
+            </button>
+            <button type="button" class="btn btn-default"
+                    ng-click="ctrlr.cancel()">
+                Cancel
+            </button>
+        </div>
+    </div><!-- modal-footer -->
+</form><!-- gameEventForm -->

@@ -1,0 +1,86 @@
+<div class="teams">
+    <div class="row">
+        <button id="button-create-team" class="button-icesheet" ng-click="teams.openTeamModal()"><i style="padding-right: 10px;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>Create Team</button>
+        <button ng-show="teams.team != null" id="button-create-team" style="margin-top: 25px;" class="button-icesheet" ng-click="teams.openTeamModal('edit')"><i style="padding-right: 10px;" class="fa fa-pencil fa-lg" aria-hidden="true"></i>Edit Team</button>
+        <button ng-show="teams.team != null" id="button-create-player" style="margin-top: 25px;" class="button-icesheet" ng-click="teams.openPlayerModal()"><i style="padding-right: 10px;" class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>Create Player</button>    
+    </div>
+    <div class="row">
+        <h3>Teams</h3>
+        <select ng-model="teams.team"
+                ng-options="t as t.name for t in teams.teams"
+                ng-change="teams.teamChange()"></select>
+    </div>
+    <div class="row teams-forwards">
+        <h3>Forwards</h3>
+        <div class="col-lg-12 col-sm-12 col-xs-12 icesheet-header">
+            <div class="col-xs-1"
+                 ng-click="predicate = 'num'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">#</div>
+            <div class="col-xs-4"
+                 ng-click="predicate = 'firstName'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Player</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'shoots'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Shoots</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'goals'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Goals</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'assists'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Assists</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'points'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Points</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'pims'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">PIMS</div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-repeat="player in teams.players | filter: { 'position' : 'F'} : true" ng-click="teams.openPlayerModal(player)">
+            <div class="col-xs-1">{{player.number}}</div>
+            <div class="col-xs-4">{{player.firstname}} {{player.lastname}}</div>
+            <div class="col-xs-1">{{player.shoots | uppercase}}</div>
+            <div class="col-xs-1">{{player.goals}}</div>
+            <div class="col-xs-1">{{player.assists}}</div>
+            <div class="col-xs-1">{{ (player.goals * 1) + (player.assists * 1) }}</div>
+            <div class="col-xs-1">{{player.pims}}</div>
+        </div>
+    </div>
+    <div class="row teams-defencemen">
+        <h3>Defencemen</h3>
+        <div class="col-lg-12 col-sm-12 col-xs-12 icesheet-header">
+            <div class="col-xs-1"
+                 ng-click="predicate = 'num'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">#</div>
+            <div class="col-xs-4"
+                 ng-click="predicate = 'player'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Player</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'shoots'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Shoots</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'goals'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Goals</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'assists'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Assists</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'shoots'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Points</div>
+            <div class="col-xs-1"
+                 ng-click="predicate = 'pims'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">PIMS</div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-repeat="player in teams.players | filter: { 'position' : 'D'} : true" ng-click="teams.openPlayerModal(player)">
+            <div class="col-xs-1">{{player.number}}</div>
+            <div class="col-xs-4">{{player.firstname}} {{player.lastname}}</div>
+            <div class="col-xs-1">{{player.shoots | uppercase}}</div>
+            <div class="col-xs-1">{{player.goals}}</div>
+            <div class="col-xs-1">{{player.assists}}</div>
+            <div class="col-xs-1">{{ (player.goals * 1) + (player.assists * 1) }}</div>
+            <div class="col-xs-1">{{player.pims}}</div>
+        </div>
+    </div>
+    <div class="row teams-goalies">
+        <h3>Goalies</h3>
+        <div class="col-lg-12 col-sm-12 col-xs-12 icesheet-header">
+            <div class="col-xs-1" ng-click="predicate = 'num'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">#</div>
+            <div class="col-xs-4" ng-click="predicate = 'player'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Player</div>
+            <div class="col-xs-1" ng-click="predicate = 'catches'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Catches</div>
+            <div class="col-xs-1" ng-click="predicate = 'wins'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Wins</div>
+            <div class="col-xs-1" ng-click="predicate = 'saves'; reverse=!reverse; teams.sortPlayers(predicate, reverse);">Save %</div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-repeat="player in teams.players | filter: { 'position' : 'G'} : true" ng-click="teams.openPlayerModal(player)">
+            <div class="col-xs-1">{{player.number}}</div>
+            <div class="col-xs-4">{{player.firstname}} {{player.lastname}}</div>
+            <div class="col-xs-1">{{player.shoots | uppercase}}</div>
+            <div class="col-xs-1">{{player.wins}}</div>
+            <div class="col-xs-1">{{player.savepercentage}}</div>
+        </div>
+    </div>
+</div>
